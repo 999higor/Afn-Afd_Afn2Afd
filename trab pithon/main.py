@@ -1,4 +1,5 @@
 import json
+import sys
     
 def afd_function(afd_dados, palavra):
     estado_atual = afd_dados['initial']
@@ -13,46 +14,57 @@ def afd_function(afd_dados, palavra):
         return 'no'
 
 def afn_function(afn_dados, palavra):
-    initial_state = afn_dados['initial']
-    for simbol in palavra:
-        new_initial_state = None
-        for afn_dados['transitions'] in initial_state:
-            'adicionar estado destino'
-            'aos novos estados atuais'
-        initial_state = new_initial_state
-        for afn_dados['states'] in initial_state:
-            if afn_dados['states'] in afn_dados['final']:
-                return 'yes'
-            else:
-                return 'no'
+    estado_atuais = afn_dados['initials']
+    for simbolo in palavra:
+        novos_estados_atuais = []
+        for estado in estado_atuais:
+            if simbolo in afn_dados['transitions'][estado]:
+                estado_destino = afn_dados['transitions'][estado][simbolo]
+                novos_estados_atuais.extend(estado_destino)
+
+        estado_atuais = novos_estados_atuais
+    for estado in estado_atuais:
+        if estado in afn_dados['final']:
+            return 'yes'
+    return 'no'
 
   
 
 
 
 def main():
-    afd_json = open("afd.json").read()
-    dados = json.loads(afd_json)
-    #print (dados)
-   
-    '''print (dados["type"])
-    print (dados["alphabet"])
-    print (dados["states"])
-    print (dados["initial"])
-    print (dados["transitions"]["q0"])
-    print (dados["final"])'''
 
+    option = sys.argv[1]
 
-    afd_palavra = open("afd-palavras.txt", "r")
-    palavra = afd_palavra.read()
-    #print(palavra)
+    if option == 1:
 
-    palavras = ['abbbbbba', 'aba', 'aa', 'abbba', 'abba']
+        afd_json = open(sys.argv[2]).read()
+        dados = json.loads(afd_json)
 
-    for i in palavras:
-        q = afd_function(dados, i)
-        print(q)
+        afd_palavra = open(sys.argv[3], "r")
+        txt = afd_palavra.read()
+        palavras = txt.split("\n")
 
-    afd_palavra.close()
+        for i in palavras:
+            q = afd_function(dados, i)
+            print(q)
+
+        afd_palavra.close()
+
+    elif option == 2:
+    
+        afd_json = open(sys.argv[2]).read()
+        dados = json.loads(afd_json)
+
+        afd_palavra = open(sys.argv[3], "r")
+        txt = afd_palavra.read()
+        palavras = txt.split("\n")
+
+        for i in palavras:
+            q = afn_function(dados, i)
+            print(q)
+
+        afd_palavra.close()
+    
 
 main()
