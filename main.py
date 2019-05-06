@@ -28,15 +28,12 @@ def afn_function(afn_dados, palavra):
             return 'yes'
     return 'no'
 
-  
-
-
 
 def main():
 
     option = sys.argv[1]
 
-    if option == 1:
+    if option == '1':
 
         afd_json = open(sys.argv[2]).read()
         dados = json.loads(afd_json)
@@ -51,7 +48,7 @@ def main():
 
         afd_palavra.close()
 
-    elif option == 2:
+    elif option == '2':
     
         afd_json = open(sys.argv[2]).read()
         dados = json.loads(afd_json)
@@ -65,6 +62,6 @@ def main():
             print(q)
 
         afd_palavra.close()
-    
+
 
 main()
